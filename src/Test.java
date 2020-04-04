@@ -1,8 +1,10 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Test {
+public class Test extends JFrame {
     public static void main(String[] args) {
         ParkingLot p = new ParkingLot();
         ArrayList<Person> personList = new ArrayList<Person>();
@@ -31,10 +33,9 @@ public class Test {
                     String line = fileIn.nextLine();
                     String data[] = line.split(",");
 
-                    if(data.length > 2)
+                    if(data.length > 3)
                         continue;
 
-                    vehicleList.add(new Vehicle(data[0], data[1]));
                 }
             }
         } catch (Exception e) {
@@ -48,5 +49,28 @@ public class Test {
                 }
             }
         }
+    }
+
+    private static void DesignGUI() {
+        JFrame frame = new JFrame();
+        frame.setSize(300, 100);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLayout(new FlowLayout());
+        frame.setTitle("FTSM Parking Lot");
+
+        Container _container = frame.getContentPane();
+        _container.setLayout(new FlowLayout());
+        _container.setBackground(Color.BLUE);
+
+        JButton btn1 = new JButton("Continue");
+        JButton btn2 = new JButton("New");
+        _container.add(btn1);
+        _container.add(btn2);
+    }
+
+    private void mainDesign() {
+        Container c = this.getContentPane();
+        c.setLayout(new FlowLayout());
     }
 }

@@ -5,18 +5,16 @@ public class Vehicle implements Parkable {
     private String matricno;
     private String plate;
     private boolean isPark;
+    private String type;
     private ArrayList<Vehicle> vehicles;
 
-    public Vehicle(String m, String p) {
+    public Vehicle(String m, String p, String t) {
         this.matricno = m;
         this.plate = p;
+        this.type = t;
         this.isPark = false;
 
         vehicles.add(this);
-    }
-
-    public void LoadVehicle() {
-
     }
 
     public ArrayList<Vehicle> getVehicles() {
