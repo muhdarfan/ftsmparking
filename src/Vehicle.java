@@ -13,8 +13,6 @@ public class Vehicle implements Parkable {
         this.plate = p;
         this.type = t;
         this.isPark = false;
-
-        vehicles.add(this);
     }
 
     public ArrayList<Vehicle> getVehicles() {
