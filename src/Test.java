@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Test {
+    private static ArrayList<Person> personList = new ArrayList<Person>();
+
     public static void main(String[] args) {
         ParkingLot p = new ParkingLot();
         ArrayList<Person> personList = new ArrayList<Person>();
@@ -10,8 +12,21 @@ public class Test {
 
         try {
             Scanner fileIn = new Scanner(new File("student.txt"));
+            Scanner test = new Scanner(new File("test.txt"));
 
+            if (test != null) {
+                if (test.hasNextLine()) {
+                    System.out.println("ada");
+                } else {
+                    System.out.println("takda");
+                }
+            } else {
+                System.out.println("Null");
+            }
             if(fileIn != null) {
+                if (fileIn.hasNextLine()) {
+
+                }
                 while(fileIn.hasNext()) {
                     String line = fileIn.nextLine();
                     String data[] = line.split(",");
