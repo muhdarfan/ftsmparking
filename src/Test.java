@@ -12,8 +12,21 @@ public class Test extends JFrame {
 
         try {
             Scanner fileIn = new Scanner(new File("student.txt"));
+            Scanner test = new Scanner(new File("test.txt"));
 
+            if (test != null) {
+                if (test.hasNextLine()) {
+                    System.out.println("ada");
+                } else {
+                    System.out.println("takda");
+                }
+            } else {
+                System.out.println("Null");
+            }
             if(fileIn != null) {
+                if (fileIn.hasNextLine()) {
+
+                }
                 while(fileIn.hasNext()) {
                     String line = fileIn.nextLine();
                     String data[] = line.split(",");
