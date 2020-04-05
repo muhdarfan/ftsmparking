@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,20 +20,10 @@ public class Test extends JFrame {
     }
 
     public static void main(String[] args) {
-        /*
-        0 - General (30)
-        1 - Staff (20)
-        2 - Student (20)
-        3 - Management (10)
-         */
-
         try {
             Scanner fileIn = new Scanner(new File("students.txt"));
 
             if (fileIn != null) {
-                // Muhammad Nur Faris bin Kaman , A174652 , Staff
-                // data[0], data[1], data[2]
-
                 while (fileIn.hasNext()) {
                     String line = fileIn.nextLine();
                     String data[] = line.split(",");
@@ -88,15 +80,24 @@ public class Test extends JFrame {
         }
     }
 
-    private static void FreshStart() {
-        System.out.println("WELCOME TO FTSM PARKING LOT!\n");
+    private static void SaveData() throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(new File("student.txt"));
+        pw.write("############### STUDENT DATA ###############");
+        for (Person p : personList) {
+            // Save person at person.txt
+            pw.println(p.toString());
+        }
+        pw.close();
+    }
 
-        boolean flag = true;
+    private static void FreshStart() {
+        System.out.println("WELCOME TO FTSM PARKING LOT!");
+
         String cmd = "";
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("1 - Create new person\n2 - Create new vehicle\n3 - Exit");
+            System.out.println("\n\n1 - Create new person\n2 - Create new vehicle\n3 - List person\n6 - Exit");
             System.out.print("Please choose an option: ");
             cmd = sc.next();
 
@@ -137,25 +138,22 @@ public class Test extends JFrame {
                     }
                     break;
 
+                case "3":
+                    if (personList.size() > 0) {
+                        int count = 1;
+                        for (Person p : personList) {
+                            System.out.printf("%d => %s\n", count, p.toString());
+                            count++;
+                        }
+                    } else {
+                        System.out.println("There's no people yet ! =<");
+                    }
+                    break;
+
                 default:
-                    continue;
+                    break;
             }
-        } while (Integer.parseInt(cmd) != 3);
-        /*
-        do {
-            try {
-                int temp = sc.nextInt();
-
-                do {
-                    System.out.println("Please choose an option:");
-                    System.out.println("1 - Create new person\n2 - Create new vehicle\n3 - Exit");
-                }
-                while (temp )
-            } catch (Exception e) {
-
-            }
-        } while (flag);
-         */
+        } while (Integer.parseInt(cmd) != 6);
     }
 
     private static void DesignGUI() {
