@@ -1,4 +1,3 @@
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -8,63 +7,53 @@ import java.util.Scanner;
 
 public class Test extends JFrame {
     private static ArrayList<Person> personList = new ArrayList<Person>();
+
+    private static void removePerson(String matric) {
+        for(int i =0;i<personList.size();i++) {
+            if(personList.get(i).getMatricNo() == "A174652") {
+                personList.remove(i);
+                break;
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        ParkingLot p = new ParkingLot();
-        ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
+        /*
+        0 - General (30)
+        1 - Staff (20)
+        2 - Student (20)
+        3 - Management (10)
+         */
 
         try {
-            Scanner fileIn = new Scanner(new File("student.txt"));
-            Scanner test = new Scanner(new File("test.txt"));
+            Scanner fileIn = new Scanner(new File("students.txt"));
 
-            if (test != null) {
-                if (test.hasNextLine()) {
-                    System.out.println("ada");
-                } else {
-                    System.out.println("takda");
-                }
-            } else {
-                System.out.println("Null");
-            }
             if (fileIn != null) {
-                if (fileIn.hasNextLine()) {
+                // Muhammad Nur Faris bin Kaman , A174652 , Staff
+                // data[0], data[1], data[2]
 
-                }
                 while (fileIn.hasNext()) {
                     String line = fileIn.nextLine();
                     String data[] = line.split(",");
 
-                    if (data.length > 4)
-                        continue;
-
-                    personList.add(new Person(data[0], data[1], data[2]));
+                    // Check data length. If data length is more than 4,
+                    // then we need to skip it because this is not a valid data !
+                    // Requirement:
+                    if (data.length == 3)
+                        personList.add(new Person(data[0], data[1], data[2]));
+                    else
+                        throw new Exception("ADA MASALAH BANG: Data not valid " + data[0]);
                 }
 
                 fileIn.close();
             }
-
-            fileIn = new Scanner(new File("vehicles.txt"));
-            if (fileIn != null) {
-                while (fileIn.hasNext()) {
-                    String line = fileIn.nextLine();
-                    String data[] = line.split(",");
-
-                    if (data.length > 3)
-                        continue;
-
-                }
-            }
         } catch (FileNotFoundException e) {
+            String fileName = e.getMessage().substring(0, e.getMessage().indexOf(' '));
+            System.out.println(fileName);
+
             FreshStart();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-
-        for (Person s : personList) {
-            for (Vehicle veh : vehicleList) {
-                if (s.getMatricNo().equals(veh.getMatricno())) {
-                    System.out.println(veh.getMatricno() + veh.getPlate());
-                }
-            }
         }
     }
 

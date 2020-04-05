@@ -1,26 +1,12 @@
-import java.awt.*;
-import java.util.ArrayList;
-
 public class Vehicle implements Parkable {
-    private String matricno;
     private String plate;
     private boolean isPark;
     private String type;
-    private ArrayList<Vehicle> vehicles;
 
-    public Vehicle(String m, String p, String t) {
-        this.matricno = m;
+    public Vehicle(String p, String t) {
         this.plate = p;
         this.type = t;
         this.isPark = false;
-    }
-
-    public ArrayList<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public String getMatricno() {
-        return matricno;
     }
 
     public String getPlate() {
@@ -29,6 +15,9 @@ public class Vehicle implements Parkable {
 
     @Override
     public boolean getState() {
+        // Read dari file parking.txt
+        // check whether vehicle plate is in parking.txt
+        ParkingLot lot = new ParkingLot();
         return false;
     }
 }

@@ -12,6 +12,8 @@ public class Person {
         this.name = n;
         this.matricNo = m;
         this.category = c;
+
+        Init();
     }
 
     private void Init() {
@@ -26,6 +28,7 @@ public class Person {
                     if (data.length > 3)
                         continue;
 
+                    /*
                     switch (data[2]) {
                         case "1":
                             vehicles.add(new Motorcycle(data[0], data[1]));
@@ -39,6 +42,7 @@ public class Person {
                             vehicles.add(new Vehicle(data[0], data[1], data[2]));
                             break;
                     }
+                     */
                 }
             }
         } catch (Exception e) {
@@ -74,5 +78,9 @@ public class Person {
 
     public String getCategory() {
         return category;
+    }
+
+    public String toString() {
+        return String.format("%s,%s,%s", this.name, this.matricNo, this.category);
     }
 }

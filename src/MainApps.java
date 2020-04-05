@@ -28,7 +28,6 @@ public class MainApps extends JFrame implements ActionListener {
         labelWelcome = new JLabel("Welcome to FTSM Parking Lots Management System");
 
         // Button
-
         personMenuBtn = new JButton("Person");
         personMenuBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         vehicleMenuBtn = new JButton("Vehicle");
@@ -62,12 +61,5 @@ public class MainApps extends JFrame implements ActionListener {
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
-        /*
-        String response = JOptionPane.showInputDialog(null,
- "What is your name?",
- "Enter your name",
- JOptionPane.QUESTION_MESSAGE);
-         */
     }
 }
