@@ -57,6 +57,37 @@ public class Test extends JFrame {
         }
     }
 
+    private static void ChangeVehicleOwnership(String plate, Person newOwner) {
+        Vehicle temp = null;
+
+        // Check whether the newOwner is in `personlist` array or not.
+        // if not, then we return;
+        if (!personList.contains(newOwner)) {
+            System.out.println("owner is ghost (?)");
+            return;
+        }
+
+        // Loop to get the old owner object and remove the vehicle from the person
+        for (Person p : personList) {
+            for (Vehicle v : p.getVehicles()) {
+                if (v.getPlate() == plate) {
+                    temp = v; // Get Attribute for the vehicles
+                    p.getVehicles().remove(v);
+                    break;
+                }
+            }
+        }
+
+        // Loop to get the new owner object.
+        // Then add the vehicle to vehicles attribute for the person.
+        for (Person p : personList) {
+            if(newOwner == p) {
+                p.getVehicles().add(temp);
+                break;
+            }
+        }
+    }
+
     private static void FreshStart() {
         System.out.println("WELCOME TO FTSM PARKING LOT!\n");
 
