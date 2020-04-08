@@ -1,0 +1,3 @@
+############### STUDENT DATA ###############
+Arfan,A123,Student
+Muhammad,A12345,Student

@@ -14,6 +14,7 @@ public class Person {
         this.name = n;
         this.matricNo = m;
         this.category = c;
+        this.vehicles = new ArrayList<Vehicle>();
 
         Init();
     }
@@ -23,32 +24,62 @@ public class Person {
             Scanner filein = new Scanner(new File("vehicles.txt"));
 
             if (filein != null) {
-                while (filein.hasNext()) {
+                while (filein.hasNextLine()) {
                     String line = filein.nextLine();
                     String[] data = line.split(",");
 
-                    if (data.length > 3)
-                        continue;
-
-                    /*
-                    switch (data[2]) {
-                        case "1":
-                            vehicles.add(new Motorcycle(data[0], data[1]));
-                            break;
-
-                        case "2":
-                            vehicles.add(new Car(data[0], data[1]));
-                            break;
-
-                        default:
-                            vehicles.add(new Vehicle(data[0], data[1], data[2]));
-                            break;
-                    }
-                     */
+                    if (data.length == 3)
+                        if (data[0].toLowerCase().equals(this.matricNo.toLowerCase()))
+                            this.addVehicle(data[1], data[2]);
                 }
+
+                System.out.printf("[DEBUG] Found %d vehicles for %s\n", this.vehicles.size(), this.name);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void addVehicle(String plate, String type) {
+        plate = plate.toUpperCase();
+        type = type.toLowerCase();
+
+        switch (type) {
+            case "car":
+                this.vehicles.add(new Car(plate));
+                break;
+
+            case "motorcycle":
+                this.vehicles.add(new Motorcycle(plate));
+                break;
+
+            case "heavy":
+                this.vehicles.add(new Heavy(plate));
+                break;
+
+            default:
+                this.vehicles.add(new Vehicle(plate, type));
+                break;
+        }
+    }
+
+    public void addVehicle(String plate, int type) {
+        switch (type) {
+            case 1:
+                this.addVehicle(plate, "car");
+                break;
+
+            case 2:
+                this.addVehicle(plate, "motorcycle");
+                break;
+
+            case 3:
+                this.addVehicle(plate, "heavy");
+                break;
+
+            default:
+                this.addVehicle(plate, "undefined");
+                break;
         }
     }
 
