@@ -23,6 +23,25 @@ public class Vehicle implements Parkable {
     }
 }
 
+class Car extends Vehicle {
+    private String brand;
+    private String model;
+
+    public Car(String p) {
+        super(p, "car");
+    }
+}
+
+class Motorcycle extends Vehicle {
+    public Motorcycle(String p) {
+        super(p, "motorcycle");
+    }
+}
+
+class Bus extends Vehicle {
+    public Bus(String p) {super(p, "bus");}
+}
+
 class Heavy extends Vehicle {
     public Heavy(String p) {
         super(p, "heavy");

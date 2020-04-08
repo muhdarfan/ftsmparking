@@ -8,15 +8,6 @@ import java.util.Scanner;
 public class Test extends JFrame {
     private static ArrayList<Person> personList = new ArrayList<Person>();
 
-    private static void removePerson(String matric) {
-        for (int i = 0; i < personList.size(); i++) {
-            if (personList.get(i).getMatricNo() == matric) {
-                personList.remove(i);
-                break;
-            }
-        }
-    }
-
     public static void main(String[] args) {
         try {
             Scanner fileIn = new Scanner(new File("person.txt"));
@@ -24,10 +15,13 @@ public class Test extends JFrame {
             if (fileIn != null) {
                 while (fileIn.hasNextLine()) {
                     String line = fileIn.nextLine();
+                    if(line.contains("#"))
+                        continue;
+
                     String data[] = line.split(",");
 
                     // Check data length. If data length is more than 4,
-                    // then we need to skip it because this is not a valid data !
+                    // then we need to skip it because it is not a valid data !
                     // Requirement:
                     if (data.length == 3)
                         personList.add(new Person(data[0], data[1], data[2]));
@@ -37,6 +31,9 @@ public class Test extends JFrame {
 
                 fileIn.close();
             }
+
+            // Parking
+            ParkingLot pl = new ParkingLot(20, 20, 15, 10);
         } catch (FileNotFoundException e) {
             String fileName = e.getMessage().substring(0, e.getMessage().indexOf(' '));
             System.out.println(fileName);
@@ -73,6 +70,15 @@ public class Test extends JFrame {
         for (Person p : personList) {
             if (newOwner == p) {
                 p.getVehicles().add(temp);
+                break;
+            }
+        }
+    }
+
+    private static void removePersonByMatric(String matric) {
+        for (int i = 0; i < personList.size(); i++) {
+            if (personList.get(i).getMatricNo() == matric) {
+                personList.remove(i);
                 break;
             }
         }

@@ -1,5 +1,5 @@
-## ID, Plate
-A1,VEH2000
+##########	PARKING DATA (ID, Plate)	##########
+A1,null
 A2,null
 A3,null
 A4,null
@@ -9,13 +9,13 @@ A7,null
 A8,null
 A9,null
 A10,null
-B1,null
-B2,null
-B3,VEH2000
-B4,null
-B5,null
-B6,null
-B7,null
-B8,null
-B9,null
-B10,null
+A11,null
+A12,null
+A13,null
+A14,null
+A15,null
+A16,null
+A17,null
+A18,null
+A19,null
+A20,null
