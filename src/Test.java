@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Test extends JFrame {
     private static ArrayList<Person> personList = new ArrayList<Person>();
+    private static ParkingLot pLot;
 
     public static void main(String[] args) {
         try {
@@ -33,7 +33,10 @@ public class Test extends JFrame {
             }
 
             // Parking
-            ParkingLot pl = new ParkingLot(20, 20, 15, 10);
+            pLot = new ParkingLot(7, 5, 0, 0);
+
+
+
         } catch (FileNotFoundException e) {
             String fileName = e.getMessage().substring(0, e.getMessage().indexOf(' '));
             System.out.println(fileName);
@@ -119,7 +122,8 @@ public class Test extends JFrame {
                         "\n4 - List vehicle" +
                         "\n5 - Remove person" +
                         "\n6 - Remove vehicle" +
-                        "\n7 - Save data to files" +
+                        "\n8 - Print Lots" +
+                        "\n9 - Save data to files" +
                         "\n10 - Exit");
 
                 System.out.print("Please choose an option: ");
@@ -288,8 +292,53 @@ public class Test extends JFrame {
                         }
                         break;
 
-                    // Save data to files
+                        // Park vehicle
                     case "7":
+                        if (personList.size() > 0) {
+                            boolean flag = true;
+                            int choice = -1, i = 0;
+
+                            do {
+                                try {
+                                    for (Person p : personList) {
+                                        if (!p.getVehicles().isEmpty()) {
+                                            i = 0;
+
+                                            System.out.printf("%d - %s [%d vehicles]\n", ++i, p.getName(), p.getVehicles().size());
+                                        }
+                                    }
+                                    System.out.print("Please enter the index number for the person: ");
+                                    choice = (sc.nextInt() - 1);
+
+                                    if (personList.get(choice).getName() != "") {
+                                        for (Vehicle v : personList.get(choice).getVehicles()) {
+                                            i = 0;
+                                            System.out.printf("%d - %s [%s]\n", ++i, v.getPlate(), v.getType());
+                                        }
+                                        System.out.print("Please enter the index number for the vehicle: ");
+                                        int idx = sc.nextInt() - 1;
+
+                                        if (personList.get(choice).getVehicles().get(idx).getPlate() != "") {
+                                            flag = false;
+
+                                            //ParkingLot.ParkVehicle('A', 1, personList.get(choice).getVehicles().get(idx));
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                }
+                            } while (flag);
+                        } else {
+                            System.out.println("There's no people associated with vehicle yet ! =<");
+                        }
+                        break;
+
+                        // Print Parking Lots
+                    case "8":
+                        ParkingLot.printLots();
+                        break;
+
+                    // Save data to files
+                    case "9":
                         if (personList.size() > 0) {
                             SaveData();
                         } else {

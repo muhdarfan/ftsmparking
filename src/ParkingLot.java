@@ -5,33 +5,49 @@ import java.util.Scanner;
 public class ParkingLot {
     private static ArrayList<Space> _lots;
     private final char symbol[] = {
-      'A', // General
-      'B', // Motor
-      'C', // Staff
-      'D'  // Dedicated
+            'A', // General
+            'B', // Motor
+            'C', // Staff
+            'D'  // Dedicated
     };
+    // Test
+    private static int count[];
 
     public ParkingLot(int gnrl, int motor, int staff, int dedicated) {
         try {
             _lots = new ArrayList<>();
+            count = new int[]{
+                    gnrl,
+                    motor,
+                    staff,
+                    dedicated
+            };
+
             Read();
-            if(!ValidateParking(gnrl, motor, staff, dedicated))
+            if (!ValidateParking(gnrl, motor, staff, dedicated))
                 throw new FileNotFoundException();
         } catch (FileNotFoundException e) {
             InitializeParking(gnrl, motor, staff, dedicated);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public char[] getSymbol() {
+        return symbol;
+    }
+
+    public static ArrayList<Space> getLots() {
+        return _lots;
     }
 
     private void Read() throws FileNotFoundException {
         Scanner _file = new Scanner(new File("parking.txt"));
 
         if (_file != null) {
-            while(_file.hasNextLine()) {
+            while (_file.hasNextLine()) {
                 String line = _file.nextLine();
-                if(line.contains("#"))
+                if (line.contains("#"))
                     continue;
                 String[] data = line.split(",");
 
@@ -45,7 +61,7 @@ public class ParkingLot {
         int[] count = {0, 0, 0, 0};
         for (Space spc : _lots) {
             for (int i = 0; i < symbol.length; i++) {
-                if(spc.getId().charAt(0) == symbol[i])
+                if (spc.getBlock() == symbol[i])
                     count[i]++;
             }
         }
@@ -58,34 +74,99 @@ public class ParkingLot {
             int total = (g + m + s + d);
 
             PrintWriter pw = new PrintWriter(new File("parking.txt"));
-            pw.println("##########\tPARKING DATA (ID, Plate)\t##########");
+            pw.println("##########\tPARKING DATA (ID, Plate) [Total: " + total + "]\t##########");
+            int symCount = 0;
+            for (int i : count) {
+                for (int j = 1; j <= i; j++) {
+                    pw.printf("%c%d,null\n", symbol[symCount], j);
+                }
+                symCount++;
+            }
+            /*
             for (int i = 1; i <= total; i++) {
-                if (i <= g)
+                if (i <= g) // 0 <= 20
                     pw.printf("%c%d,null\n", symbol[0], i);
-                else if (i <= m)
+                else if (i <= (m + 20)) // 20 < i < 40
                     pw.printf("%c%d,null\n", symbol[1], (i - 20));
-                else if (i <= s)
+                else if (i <= (s + 40))
                     pw.printf("%c%d,null\n", symbol[2], (i - 40));
-                else if (i <= d)
+                else if (i <= (d + 60))
                     pw.printf("%c%d,null\n", symbol[3], (i - 60));
             }
+             */
             pw.close();
-        } catch (Exception e) {System.out.println(e.getMessage());}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public static void ParkVehicle(String id, Parkable v) {
-        for (Space s : _lots) {
-            // Check if has vehicle at lot
-            // Check category
-            if(s.getId() == id.toUpperCase()) {
-                s.plate = v.getPlate();
+    public static void printLots() {
+        int current = 0;
+        for (int i : count) {
+            int row = (int) Math.ceil(i / (float) 5);
+
+            // Row
+            for (int r = 1; r <= row; r++) {
+                // Column
+                StringBuilder rowText = new StringBuilder();
+                for (int j = (r * 5) - 5; j < (r * 5) && j < i; j++) {
+                    Space sp = ParkingLot.getLots().get(current);
+
+                    rowText.append(String.format("%s%s%s ", (sp.plate.equals("null") ? "\u001B[32m" : "\u001B[31m"), (sp.plate.equals("null") ? sp.getFull() : sp.getPlate()), "\u001B[0m"));
+                        /*
+                        #### ^ Equivalence
+
+                        if(sp.plate.equals("null")) {
+                            rowText.append(String.format("%s%s%s ", ANSI_GREEN, sp.getFull(), ANSI_RESET));
+                        } else {
+                            rowText.append(String.format("%s%s%s ", ANSI_RED, sp.getPlate(), ANSI_RESET));
+                        }
+                        */
+                    current++;
+                }
+                System.out.println(rowText.toString().substring(0, rowText.toString().length() - 1));
             }
         }
     }
 
+    public static boolean ParkVehicle(String usercategory, Space lot, Parkable v) {
+        int idx = _lots.indexOf(lot);
+        Space s = _lots.get(idx);
+
+        if (s.plate.equals("null")) {
+            _lots.get(idx).setPlate(v.getPlate());
+            _lots.set(idx, s);
+            return true;
+        }
+
+        return false;
+        /*
+        _lots.indexOf(lot);
+        for (Space s : _lots) {
+            // Check if has vehicle at lot
+            // Check category
+            if (s == lot) {
+
+            }
+        }
+         */
+    }
+
+    public static boolean isAuthorized(String category, Space s) {
+        //
+
+        return false;
+    }
+
+    public static void SaveData() {
+        for(Space s : _lots) {
+
+        }
+    }
+
     public static boolean isPark(String plate) {
-        for(Space s : _lots)
-            if(s.getPlate() == plate)
+        for (Space s : _lots)
+            if (s.getPlate() == plate)
                 return true;
 
         return false;
@@ -93,14 +174,16 @@ public class ParkingLot {
 }
 
 class Space {
-    private String id;
+    private int id;
+    private char block;
     private String category;
     protected String plate;
     protected Parkable onLot;
 
     public Space(String i, String p) {
         this.plate = p;
-        this.id = i;
+        this.id = Integer.parseInt(i.substring(1));
+        this.block = i.charAt(0);
         this.validate(i);
     }
 
@@ -126,6 +209,14 @@ class Space {
         }
     }
 
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public void setOnLot(Parkable onLot) {
+        this.onLot = onLot;
+    }
+
     public String getPlate() {
         return plate;
     }
@@ -138,7 +229,15 @@ class Space {
         return category;
     }
 
-    public String getId() {
+    public String getFull() {
+        return String.format("%c%02d", this.block, this.id);
+    }
+
+    public int getId() {
         return id;
+    }
+
+    public char getBlock() {
+        return block;
     }
 }
