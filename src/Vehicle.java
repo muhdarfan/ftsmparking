@@ -1,12 +1,10 @@
 public class Vehicle implements Parkable {
     private String plate;
-    private boolean isPark;
     private String type;
 
     public Vehicle(String p, String t) {
         this.plate = p;
         this.type = t;
-        this.isPark = false;
     }
 
     public String toString() {
@@ -15,6 +13,14 @@ public class Vehicle implements Parkable {
 
     public String getType() {
         return type;
+    }
+
+    public boolean isPark() {
+        for (Space s : ParkingLot.getLots()) {
+            if (s.getPlate().equals(this.plate))
+                return true;
+        }
+        return false;
     }
 
     @Override

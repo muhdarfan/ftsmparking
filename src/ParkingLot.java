@@ -100,6 +100,20 @@ public class ParkingLot {
         }
     }
 
+    public static Space getSpace(String x) {
+        if(x.length() > 1) {
+            char block = x.charAt(0);
+            int id = Integer.parseInt(x.substring(1));
+
+            for (Space s : getLots()) {
+                if (s.getId() == id && block == s.getBlock())
+                    return s;
+            }
+        }
+
+        return null;
+    }
+
     public static void printLots() {
         int current = 0;
         for (int i : count) {
@@ -136,20 +150,11 @@ public class ParkingLot {
         if (s.plate.equals("null")) {
             _lots.get(idx).setPlate(v.getPlate());
             _lots.set(idx, s);
+            SaveData();
             return true;
         }
 
         return false;
-        /*
-        _lots.indexOf(lot);
-        for (Space s : _lots) {
-            // Check if has vehicle at lot
-            // Check category
-            if (s == lot) {
-
-            }
-        }
-         */
     }
 
     public static boolean isAuthorized(String category, Space s) {
@@ -158,10 +163,21 @@ public class ParkingLot {
         return false;
     }
 
-    public static void SaveData() {
-        for(Space s : _lots) {
+    public static boolean SaveData() {
+        try {
+            PrintWriter pw = new PrintWriter(new File("parking.txt"));
+            pw.println("##########\tPARKING DATA (ID, Plate) [Total: " + _lots.size() + "]\t##########");
+
+            for (Space s : getLots())
+                pw.println(s.toString());
+
+            pw.close();
+            return true;
+        } catch (Exception e) {
 
         }
+
+        return false;
     }
 
     public static boolean isPark(String plate) {
@@ -232,6 +248,8 @@ class Space {
     public String getFull() {
         return String.format("%c%02d", this.block, this.id);
     }
+
+    public String toString() { return String.format("%s,%s", this.getFull(), (this.getPlate().isEmpty() ? "null" : this.getPlate())); }
 
     public int getId() {
         return id;

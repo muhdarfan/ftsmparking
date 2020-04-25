@@ -1,13 +1,13 @@
 ##########	PARKING DATA (ID, Plate) [Total: 12]	##########
-A1,null
-A2,null
-A3,VEH123
-A4,null
-A5,null
-A6,null
-A7,null
-B1,null
-B2,null
-B3,null
-B4,null
-B5,null
+A01,null
+A02,null
+A03,null
+A04,null
+A05,null
+A06,VEH 123
+A07,null
+B01,null
+B02,null
+B03,null
+B04,null
+B05,null

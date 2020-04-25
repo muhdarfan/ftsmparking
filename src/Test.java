@@ -15,7 +15,7 @@ public class Test extends JFrame {
             if (fileIn != null) {
                 while (fileIn.hasNextLine()) {
                     String line = fileIn.nextLine();
-                    if(line.contains("#"))
+                    if (line.contains("#"))
                         continue;
 
                     String data[] = line.split(",");
@@ -34,7 +34,6 @@ public class Test extends JFrame {
 
             // Parking
             pLot = new ParkingLot(7, 5, 0, 0);
-
 
 
         } catch (FileNotFoundException e) {
@@ -122,6 +121,7 @@ public class Test extends JFrame {
                         "\n4 - List vehicle" +
                         "\n5 - Remove person" +
                         "\n6 - Remove vehicle" +
+                        "\n7 - Park vehicle" + // 2:52 am for mira >:(
                         "\n8 - Print Lots" +
                         "\n9 - Save data to files" +
                         "\n10 - Exit");
@@ -292,7 +292,7 @@ public class Test extends JFrame {
                         }
                         break;
 
-                        // Park vehicle
+                    // Park vehicle
                     case "7":
                         if (personList.size() > 0) {
                             boolean flag = true;
@@ -311,17 +311,43 @@ public class Test extends JFrame {
                                     choice = (sc.nextInt() - 1);
 
                                     if (personList.get(choice).getName() != "") {
-                                        for (Vehicle v : personList.get(choice).getVehicles()) {
+                                        Person xPerson = personList.get(choice);
+                                        // Get vehicles list from user choices
+                                        for (Vehicle v : xPerson.getVehicles()) {
                                             i = 0;
-                                            System.out.printf("%d - %s [%s]\n", ++i, v.getPlate(), v.getType());
+
+                                            // Check if vehicle has been parked or not.
+                                            // If no, then show
+                                            if (!v.isPark())
+                                                System.out.printf("%d - %s [%s]\n", ++i, v.getPlate(), v.getType());
                                         }
-                                        System.out.print("Please enter the index number for the vehicle: ");
-                                        int idx = sc.nextInt() - 1;
 
-                                        if (personList.get(choice).getVehicles().get(idx).getPlate() != "") {
+                                        // Check if there's any vehicles that needed to be park.
+                                        if (i > 0) {
+                                            System.out.print("Please enter the index number for the vehicle: ");
+                                            int idx = sc.nextInt() - 1;
+                                            Vehicle myVeh = xPerson.getVehicles().get(idx);
+
+                                            if (!myVeh.getPlate().isEmpty()) {
+                                                ParkingLot.printLots();
+                                                boolean flag2 = true;
+
+                                                do {
+                                                    System.out.print("Please enter the space number (eg: A01): ");
+                                                    String space = sc.next();
+
+                                                    Space xSpace = ParkingLot.getSpace(space);
+                                                    if (xSpace != null) {
+                                                        flag = false;
+                                                        flag2 = false;
+                                                        ParkingLot.ParkVehicle(xPerson.getCategory(), xSpace, myVeh);
+                                                        ShowMessage(String.format("Parked %s at %s", myVeh.getPlate(), xSpace.getFull()));
+                                                    }
+                                                } while (flag2);
+                                            }
+                                        } else {
                                             flag = false;
-
-                                            //ParkingLot.ParkVehicle('A', 1, personList.get(choice).getVehicles().get(idx));
+                                            ShowMessage("This person has parked all his/her vehicles.");
                                         }
                                     }
                                 } catch (Exception e) {
@@ -332,7 +358,7 @@ public class Test extends JFrame {
                         }
                         break;
 
-                        // Print Parking Lots
+                    // Print Parking Lots
                     case "8":
                         ParkingLot.printLots();
                         break;
@@ -353,6 +379,12 @@ public class Test extends JFrame {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static void ShowMessage(String message) throws IOException {
+        System.out.println(message);
+        System.out.println("Press Enter to continue...");
+        System.in.read();
     }
 
     private static void DesignGUI() {
