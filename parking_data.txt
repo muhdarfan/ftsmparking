@@ -1,0 +1,74 @@
+######## PARKING DATA ########
+A,General,general
+######## SPACE DATA ########
+A,1,null
+A,2,null
+A,3,null
+A,4,null
+A,5,null
+A,6,null
+A,7,null
+A,8,null
+A,9,null
+A,10,null
+A,11,null
+A,12,null
+A,13,null
+A,14,null
+A,15,null
+A,16,null
+A,17,null
+A,18,null
+A,19,null
+A,20,null
+
+######## PARKING DATA ########
+B,Motorcycle,motorcycle
+######## SPACE DATA ########
+B,1,null
+B,2,null
+B,3,null
+B,4,null
+B,5,null
+B,6,null
+B,7,null
+B,8,null
+B,9,null
+B,10,null
+B,11,null
+B,12,null
+B,13,null
+
+######## PARKING DATA ########
+C,Staff,staff
+######## SPACE DATA ########
+C,1,null
+C,2,null
+C,3,null
+C,4,null
+C,5,null
+C,6,null
+C,7,null
+C,8,null
+C,9,null
+C,10,null
+C,11,null
+C,12,null
+C,13,null
+C,14,null
+C,15,null
+
+######## PARKING DATA ########
+D,Manager,dedicated
+######## SPACE DATA ########
+D,1,null
+D,2,null
+D,3,null
+D,4,null
+D,5,null
+D,6,null
+D,7,null
+D,8,null
+D,9,null
+D,10,null
+

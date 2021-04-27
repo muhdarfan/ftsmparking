@@ -14,7 +14,7 @@ public class Person {
         this.name = n;
         this.matricNo = m;
         this.category = c;
-        this.vehicles = new ArrayList<Vehicle>();
+        this.vehicles = new ArrayList<>();
 
         Init();
     }
@@ -23,17 +23,13 @@ public class Person {
         try {
             Scanner filein = new Scanner(new File("vehicles.txt"));
 
-            if (filein != null) {
-                while (filein.hasNextLine()) {
-                    String line = filein.nextLine();
-                    String[] data = line.split(",");
+            while (filein.hasNextLine()) {
+                String line = filein.nextLine();
+                String[] data = line.split(",");
 
-                    if (data.length == 3)
-                        if (data[0].toLowerCase().equals(this.matricNo.toLowerCase()))
-                            this.addVehicle(data[1], data[2]);
-                }
-
-                System.out.printf("[DEBUG] Found %d vehicles for %s\n", this.vehicles.size(), this.name);
+                if (data.length == 3)
+                    if (data[0].toLowerCase().equals(this.matricNo.toLowerCase()))
+                        this.addVehicle(data[1], data[2]);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -87,15 +83,6 @@ public class Person {
         return vehicles;
     }
 
-    // Setter method
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMatricNo(String matricNo) {
-        this.matricNo = matricNo;
-    }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -110,10 +97,16 @@ public class Person {
     }
 
     public String getCategory() {
-        return category;
+        return category.toLowerCase();
     }
 
     public String toString() {
         return String.format("%s,%s,%s", this.name, this.matricNo, this.category);
+    }
+
+    public boolean isStaff() {
+        if (this.category.equals("staff") || this.category.equals("management"))
+            return true;
+        return false;
     }
 }

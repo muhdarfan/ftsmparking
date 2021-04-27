@@ -1,2 +1,7 @@
 ############### VEHICLES DATA ###############
-A123,VEH 123,car
+A174652,AKL 4269,car
+A174652,MOT 4R,motorcycle
+S4411,UKM 1221,car
+S4411,UKM 404,motorcycle
+M12345,UKM 1,car
+V440,WEH 144,heavy

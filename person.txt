@@ -1,3 +1,5 @@
 ############### STUDENT DATA ###############
-Arfan,A123,Student
-Muhammad,A12345,Student
+ARFAN,A174652,student
+Muhaimin,S4411,staff
+Muhammad,M12345,management
+Abu,V440,visitor

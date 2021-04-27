@@ -1,4 +1,4 @@
-public class Vehicle implements Parkable {
+public class Vehicle {
     private String plate;
     private String type;
 
@@ -11,21 +11,23 @@ public class Vehicle implements Parkable {
         return String.format("%s,%s", this.plate, this.type);
     }
 
+    public String getPlate() {
+        return plate.toUpperCase();
+    }
+
     public String getType() {
-        return type;
+        return type.toLowerCase();
     }
 
     public boolean isPark() {
-        for (Space s : ParkingLot.getLots()) {
-            if (s.getPlate().equals(this.plate))
-                return true;
+        for (ParkingLot pl : Core.parkingLotList) {
+            for (Space sp : pl.getSpace()) {
+                if (sp.getPlate().equals(this.plate))
+                    return true;
+            }
         }
-        return false;
-    }
 
-    @Override
-    public String getPlate() {
-        return this.plate;
+        return false;
     }
 }
 
